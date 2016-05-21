@@ -7,12 +7,16 @@ import url_manager
 
 class SpiderMain(object): #初始化url管理器 下载器 解析器 输出器
     def __init__(self):
+        self.init_urls = url_manager.InitUrlList()
         self.urls = url_manager.UrlManager()
         self.downloader = html_downloader.HtmlDownloader()
         self.parser = html_parser.HtmlParser()
         self.outputer = html_outputer.HtmlOutputer()
 
-    def craw(self,root_url):
+
+
+
+    def craw_data(self):
         count=1
         self.urls.add_new_url(root_url)
         while self.urls.has_new_url():
@@ -32,7 +36,7 @@ class SpiderMain(object): #初始化url管理器 下载器 解析器 输出器
                print("craw failed")
         self.outputer.output_html()
 
+
 if __name__ ==  '__main__':
-    root_url = 'http://baike.baidu.com/view/21087.htm'
     obj_spider = SpiderMain()
-    obj_spider.craw(root_url)
+    obj_spider.craw_data()

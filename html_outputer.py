@@ -26,3 +26,13 @@ class HtmlOutputer(object):
         fout.write('</table>')
         fout.write('</body>')
         fout.write('</html>')
+
+    def output_urllist(self,urllist):
+        with open('urllist.py','a') as f:
+            f.write('urllist=[')
+            for url in urllist:
+                f.write('"'+url+'"'+',')
+            f.write(']')
+
+
+

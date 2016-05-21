@@ -23,3 +23,17 @@ class UrlManager(object):
         new_url = self.new_urls.pop() #pop()会将某元素从list中获取并删除
         self.old_urls.add(new_url)
         return new_url
+
+    def new_url_list(self):
+        return self.new_urls
+
+class InitUrlList(object):
+    def __init__(self):
+        self.new_urls=[]
+
+    def init_url_list(self):
+        #self.new_urls.append('https://www.liepin.com/zhaopin/?sfrom=click-pc_homepage-centre_searchbox-search_new&key=%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90')
+        for i in range (5,100):
+            new_url = 'https://www.liepin.com/zhaopin/?sfrom=click-pc_homepage-centre_searchbox-search_new&key=%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90&curPage='+str(i)
+            self.new_urls.append(new_url)
+        return self.new_urls
