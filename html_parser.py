@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+#本模块为网页解析器，用以对读取的网页内容进行解析，分别为url解析和data解析
 import re
 from urllib import parse
 from bs4 import BeautifulSoup
@@ -10,15 +11,18 @@ class HtmlParser(object):
         # https://job.liepin.com/427_4279838/?imscid=R000000075
         # https://a.liepin.com/20065213/job_7798665.shtml?imscid=R000000075
         new_urls = set()
-        links = soup.find_all('a',href=re.compile(r'https://(job|a)\.liepin\.com/*'))
+        links = soup.find_all('a', href=re.compile(r'https://(job|a)\.liepin\.com/\d+'))
+        #print(links)
         if links == []:
             print('Error!')
             return
         else:
             for link in links: #问：link是什么类型的数据？
                 new_url = link['href']
+                #print('href',new_url)
                 new_full_url = parse.urljoin(new_url, r'?imscid=R000000075')
                 new_urls.add(new_full_url)
+            #print(new_urls)
             return new_urls
 
     def _get_new_data(self, page_url, soup):
@@ -32,7 +36,7 @@ class HtmlParser(object):
 
         # <p class="job-main-title">8-11万...</p>
         job_salary = soup.find('p', class_="job-main-title")
-        res_data['salary'] = re.sub(r'\s+','',re.split(r'[\r\n]',re.sub(r'[\r\n\t]','',job_salary.get_text(),count=3))[0])
+        res_data['salary'] = re.sub(r'\s+','',re.sub(r'(\d+(天|小时)内?反馈)|(查看率\d+\%)|(反馈率\d+\%)','',job_salary.get_text()))
 
         #<p class="basic-infor"><span><i class="icons24 icons24-position"></i>上海-徐汇区</span><span>...</span></p>
         job_position = soup.find('p',class_="basic-infor").find('span')
@@ -56,7 +60,7 @@ class HtmlParser(object):
         if page_url is None or html_cont is None:
             return
 
-        soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
+        soup = BeautifulSoup(html_cont, 'html.parser', from_encoding='utf-8')
         new_data = self._get_new_data(page_url,soup)
         return new_data
 
