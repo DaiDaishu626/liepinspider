@@ -1,18 +1,38 @@
 #-*- coding:utf-8 -*-
-#本模块为输出程序，输出格式包括"txt"和"csv"
-import csv
-
 class HtmlOutputer(object):
     def __init__(self):
-        pass
+        self.datas = []
 
-    def output_html(self,data):
-        f = open('job_data.csv', 'a', encoding='gbk')
-        writer = csv.writer(f)
-        writer.writerow([data['url'], data['title'], data['salary'],data['position'],data['content']])
+    def collect_data(self, data):
+        if data is None:
+            return
+        self.datas.append(data)
 
-    def output_urllist(self, name='default.txt',urls=[]):
-        with open(name,'w') as f:
-            for url in urls:
-                f.write(url)
+    def output_html(self):
+        fout = open('output.html','w',encoding='utf-8')
+        fout.write('<html>')
+        fout.write('<body>')
+        fout.write('<head><meta charset="utf-8"></head>')
+        fout.write('<table>')
+
+        for data in self.datas:
+            fout.write('<tr>')
+            fout.write('<td>%s</td>' %data['url'])
+            fout.write('<td>%s</td>' %data['title'])
+            fout.write('<td>%s</td>' %data['summary'])
+            fout.write('</tr>')
+
+
+        fout.write('</table>')
+        fout.write('</body>')
+        fout.write('</html>')
+
+    def output_urllist(self,urllist):
+        with open('urllist.py','a') as f:
+            f.write('urllist=[')
+            for url in urllist:
+                f.write('"'+url+'"'+',')
+            f.write(']')
+
+
 

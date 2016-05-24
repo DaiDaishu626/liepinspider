@@ -1,0 +1,1 @@
+!function(){window.HOST_TYPE="2",window.BMap_loadScriptTime=(new Date).getTime(),document.write('<script type="text/javascript" src="//concat.lietou-static.com/core/pc/revs/js/common/map/getscript_fdd91079.js"></script>')}();
